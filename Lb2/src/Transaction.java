@@ -10,6 +10,7 @@ public class Transaction {
         this.description = description;
         this.category = category;
     }
+
     public String getDate() {
         return date;
     }
@@ -25,7 +26,7 @@ public class Transaction {
     public String getCategory() {
         return category;
     }
-    // Setters
+
     public void setDate(String date) {
         this.date = date;
     }

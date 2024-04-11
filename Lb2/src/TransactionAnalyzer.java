@@ -13,7 +13,6 @@ public class TransactionAnalyzer {
         this.dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     }
 
-    // Метод для розрахунку загального балансу
     public double calculateTotalBalance() {
         double balance = 0;
         for (Transaction transaction : transactions) {
@@ -35,10 +34,10 @@ public class TransactionAnalyzer {
     }
     public List<Transaction> findTopExpenses() {
         return transactions.stream()
-                .filter(t -> t.getAmount() < 0) // Вибірка лише витрат (від'ємні значення)
-                .sorted(Comparator.comparing(Transaction::getAmount)) // Сортування за сумою
-                .limit(10) // Обмеження результату першими 10 записами
-                .collect(Collectors.toList()); // Збір результату в список
+                .filter(t -> t.getAmount() < 0)
+                .sorted(Comparator.comparing(Transaction::getAmount))
+                .limit(10)
+                .collect(Collectors.toList());
     }
     public void findMaxMinExpenses(LocalDate startDate, LocalDate endDate) {
         double maxExpense = Double.MIN_VALUE;
@@ -67,9 +66,7 @@ public class TransactionAnalyzer {
         System.out.println("Найменша витрата: " + minTransaction);
     }
 
-    // Метод для створення текстового звіту
     public void createExpenseReport() {
-        // Групування транзакцій за місяцями та категоріями
         Map<String, Double> monthlyExpenses = new HashMap<>();
         Map<String, Double> categoryExpenses = new HashMap<>();
 
@@ -77,15 +74,12 @@ public class TransactionAnalyzer {
             LocalDate date = LocalDate.parse(transaction.getDate(), dateFormatter);
             String monthYear = date.format(DateTimeFormatter.ofPattern("MM-yyyy"));
 
-            // Групування за місяцями
             monthlyExpenses.merge(monthYear, transaction.getAmount(), Double::sum);
 
-            // Групування за категоріями
             String category = transaction.getCategory();
             categoryExpenses.merge(category, transaction.getAmount(), Double::sum);
         }
 
-        // Візуалізація витрат по місяцях
         System.out.println("Витрати по місяцях:");
         for (Map.Entry<String, Double> entry : monthlyExpenses.entrySet()) {
             String month = entry.getKey();
@@ -95,7 +89,6 @@ public class TransactionAnalyzer {
             System.out.println(month + ": " + bar);
         }
 
-        // Візуалізація витрат по категоріях
         System.out.println("\nВитрати по категоріях:");
         for (Map.Entry<String, Double> entry : categoryExpenses.entrySet()) {
             String category = entry.getKey();
